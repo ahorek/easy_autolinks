@@ -1,13 +1,17 @@
 #!/usr/bin/env rake
-require "bundler/gem_tasks"
 
+require 'bundler/gem_tasks'
 gemspec = Bundler::GemHelper.gemspec
-
-require 'rake/extensiontask'
-Rake::ExtensionTask.new('easy_autolinks', gemspec) do |ext|
-  ext.cross_compile = true
-  ext.cross_platform = %w[x86-mingw32 x64-mingw32]
-  ext.cross_config_options << '--with-ldflags="-static-libgcc"' << '--with-static-libstdc++'
+if defined?(JRUBY_VERSION)
+  require 'rake/javaextensiontask'
+  Rake::JavaExtensionTask.new('easy_autolinks', gemspec)
+else
+  require 'rake/extensiontask'
+  Rake::ExtensionTask.new('easy_autolinks', gemspec) do |ext|
+    ext.cross_compile = true
+    ext.cross_platform = %w[x86-mingw32 x64-mingw32]
+    ext.cross_config_options << '--with-ldflags="-static-libgcc"' << '--with-static-libstdc++'
+  end
 end
 
 require 'rake/testtask'

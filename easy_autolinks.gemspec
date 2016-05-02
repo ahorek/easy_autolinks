@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.description   = 'autolinking'
   gem.summary       = 'A fast autolinking library'
   gem.homepage      = "https://github.com/ahorek/easy_autolinks"
-  gem.platform      = defined?(JRUBY_VERSION) ? 'java' : Gem::Platform::RUBY
+  gem.platform      = Gem::Platform.local
   gem.license       = 'MIT'
 
   gem.files         = Dir.glob('**/*').select{ |e| File.file? e } - ["easy_autolinks-0.1.gem"] #`git ls-files`.split("\n")
@@ -18,9 +18,10 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   gem.required_ruby_version = '>= 1.9.3'
-  gem.extensions = 'ext/easy_autolinks/extconf.rb'
+  unless defined?(JRUBY_VERSION)
+    gem.extensions = 'ext/easy_autolinks/extconf.rb'
+  end
 
   gem.add_development_dependency 'bundler', '~> 0'
   gem.add_development_dependency 'rake', '~> 0'
-  gem.add_development_dependency("activesupport", ["< 4.0"])
 end

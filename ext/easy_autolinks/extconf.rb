@@ -7,7 +7,6 @@ unless defined?(JRUBY_VERSION)
     have_library('stdc++')
   end
 
-  extension_name = 'easy_autolinks'
   create_makefile 'easy_autolinks'
 
   unless CONFIG['CXX']
@@ -26,7 +25,7 @@ unless defined?(JRUBY_VERSION)
 CXX=#{cxx}
     EOF
 
-    File.open('Makefile', 'w') { |mf|
+    File.open('Makefile', 'wb') { |mf|
       mf.print new_mf
     }
   end
